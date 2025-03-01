@@ -13,6 +13,7 @@ document.getElementById('coverPageBtn').addEventListener('click', e => { /* code
 
 // Initialisation au chargement :
 window.addEventListener('load', () => {
+    
   initAutocomplete();
   initDocuments();
   // Autres initialisations globales
