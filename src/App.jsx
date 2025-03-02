@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from "./pages/Home";
-import Candidate from "./pages/Candidate";
-import Exam from "./pages/Exam";
+import Home from './pages/Home';
+import Candidate from './pages/Candidate';
+import Exam from './pages/Exam';
 
 function App() {
   return (
@@ -16,3 +16,4 @@ function App() {
 }
 
 export default App;
+
