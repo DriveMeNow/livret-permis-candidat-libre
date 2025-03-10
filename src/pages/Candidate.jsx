@@ -1,3 +1,4 @@
+import Navbar from '../components/Navbar';
 export default function Candidate() {
     return (
       <div>
@@ -6,4 +7,3 @@ export default function Candidate() {
       </div>
     );
   }
-  

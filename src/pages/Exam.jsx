@@ -7,4 +7,4 @@ export default function Exam() {
       </div>
     );
   }
-  
+  import Navbar from '../components/Navbar';

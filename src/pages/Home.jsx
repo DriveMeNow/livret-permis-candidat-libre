@@ -9,3 +9,4 @@ export default function Home() {
     </div>
   );
 }
+import Navbar from '../components/Navbar';
