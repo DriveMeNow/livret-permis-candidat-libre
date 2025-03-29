@@ -1,0 +1,33 @@
+{
+  "name": "backend",
+  "version": "1.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "sendgrid",
+    "csrf",
+    "backend",
+    "livret-permis"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Backend sécurisé pour l'envoi de mails et gestion de l'authentification pour le livret permis candidat libre.",
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "csurf": "^1.10.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

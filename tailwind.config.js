@@ -1,18 +1,16 @@
-module.exports = {
+export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#FFA500',
-        secondary: '#fff9e6',
-        darkBackground: "#222",
-        lightBackground: '#fff9e6',
-        dark: '#111',
-        gray: '#666',
+        primary: "#feecc7",
+        secondary: "#fb923c",
+        blackCustom: "#0a0a0a",
       },
     },
+  },
   plugins: [],
 };

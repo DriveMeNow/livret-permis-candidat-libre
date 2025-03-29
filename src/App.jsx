@@ -1,29 +1,14 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Candidat from './pages/Candidate';
+import { Routes, Route } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
-import Exam from './pages/Exam';
-import Permis from './pages/Permis';
-import SessionTracker from './pages/SessionTracker';
+import HomePage from './pages/HomePage';  // Vérifie bien ce chemin
+import './styles/global.css';
 
 function App() {
-  const location = useLocation();
-  const hideNavbar = location.pathname === '/auth';
-
   return (
-    <>
-      {!hideNavbar && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/candidat" element={<Candidat />} />
-        <Route path="/inscription" element={<SessionTracker />} />
-        <Route path="/suivi" element={<SessionTracker />} />
-        <Route path="/examen" element={<Exam />} />
-        <Route path="/permis" element={<Permis />} />
-        <Route path="/auth" element={<AuthPage />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />              {/* Page d'accueil */}
+      <Route path="/auth" element={<AuthPage />} />          {/* Page d'authentification */}
+    </Routes>
   );
 }
 
