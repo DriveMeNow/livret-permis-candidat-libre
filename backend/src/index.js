@@ -30,7 +30,7 @@ app.use(helmet.noSniff());
 
 // CORS sécurisé
 app.use(cors({
-  origin: 'http://localhost:5173', // à changer en production
+  origin: 'https://drivemenow.netlify.app/', // à changer en production
   credentials: true
 }));
 

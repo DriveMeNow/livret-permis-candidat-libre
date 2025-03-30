@@ -17,7 +17,7 @@ export default function RegisterForm() {
   useEffect(() => {
     const fetchCsrfToken = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/csrf-token');
+        const { data } = await axios.get('https://livret-numerique-permisb-candidat-libre.onrender.com/api/csrf-token');
         axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
       } catch (error) {
         console.error('Erreur récupération CSRF:', error);
@@ -50,7 +50,7 @@ const handleSubmit = async (e) => {
   
     const otp = generateOTP(); // Génération OTP claire et explicite
     try {
-      await axios.post('http://localhost:5000/api/mail/send-registration-email', { email, otp });
+      await axios.post('https://livret-numerique-permisb-candidat-libre.onrender.com/api/mail/send-registration-email', { email, otp });
       alert('Inscription réussie, vérifiez votre email pour récupérer le code OTP.');
   
       // Redirection automatique vers la page de connexion après l'inscription réussie
