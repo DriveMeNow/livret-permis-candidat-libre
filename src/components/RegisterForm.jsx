@@ -124,7 +124,7 @@ const handleSubmit = async (e) => {
         </label>
       </div>
 
-      <ReCAPTCHA sitekey="6LfNHvsqAAAAAKR8lxybwjTmTAz6_3U7H2EkkQO2" onChange={handleCaptchaChange} className="flex justify-center" />
+      <ReCAPTCHA sitekey={import.meta.env.VITE_RECAPTCHA_KEY} onChange={handleCaptchaChange} className="flex justify-center" />
 
       <div className="flex justify-center pt-4">
         <button type="submit" className="px-8 bg-[#feecc7] hover:bg-orange-400 text-black rounded-lg py-2 font-semibold text-base">

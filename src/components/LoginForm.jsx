@@ -85,7 +85,7 @@ export default function LoginForm() {
             <input type="text" placeholder="Code OTP" value={otp} onChange={(e) => setOtp(e.target.value)} required className="w-full p-2 rounded-lg border border-gray-300" />
           )}
 
-          <ReCAPTCHA sitekey="6LfNHvsqAAAAAKR8lxybwjTmTAz6_3U7H2EkkQO2" onChange={handleCaptchaChange} className="flex justify-center" />
+<ReCAPTCHA sitekey={import.meta.env.VITE_RECAPTCHA_KEY} onChange={handleCaptchaChange} className="flex justify-center" />
 
           <div className="flex justify-center">
             {loading ? <Loader /> : <button type="submit" className="px-8 bg-[#feecc7] hover:bg-orange-400 text-black rounded-lg py-2 font-semibold text-base">Se connecter</button>}
