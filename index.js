@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import mailRoutes from './routes/mailRoutes.js';
+import mailRoutes from './src/routes/mailRoutes.js';
 
 dotenv.config();
 

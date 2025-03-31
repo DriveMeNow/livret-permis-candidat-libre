@@ -1,6 +1,6 @@
 import sgMail from '@sendgrid/mail';
 import dotenv from 'dotenv';
-import redisClient from '../../redisClient.js';
+import redisClient from '../redisClient.js';
 
 dotenv.config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
