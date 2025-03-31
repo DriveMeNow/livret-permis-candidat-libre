@@ -1,6 +1,5 @@
 import express from 'express';
 import { login } from '../controllers/authController.js';
-import mailRoutes from './routes/mailRoutes.js';
 
 const router = express.Router();
 
