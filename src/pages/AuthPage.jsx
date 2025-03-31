@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import LoginForm from '../components/LoginForm.jsx';
-import RegisterForm from '../components/RegisterForm.jsx';
+import LoginForm from '../src/components/LoginForm.jsx';
+import RegisterForm from '../src/components/RegisterForm.jsx';
 
 export default function AuthPage() {
   const location = useLocation();
