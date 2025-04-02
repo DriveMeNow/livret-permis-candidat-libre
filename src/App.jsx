@@ -1,15 +1,13 @@
-import { Routes, Route } from 'react-router-dom';
-import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage';  // Vérifie bien ce chemin
-import './styles/global.css';
-
-function App() {
+// Exemple dans App.jsx ou composant spécifique
+export default function App({ nonce }) {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />              {/* Page d'accueil */}
-      <Route path="/auth" element={<AuthPage />} />          {/* Page d'authentification */}
-    </Routes>
+    <>
+      <style nonce={nonce}>
+        {`
+          h1 { color: blue; }
+        `}
+      </style>
+      <h1>Bienvenue sur DriveMeNow</h1>
+    </>
   );
 }
-
-export default App;

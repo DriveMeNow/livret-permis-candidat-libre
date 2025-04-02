@@ -7,6 +7,8 @@
                            frame-src https://www.google.com;
                            font-src 'self' https://fonts.gstatic.com;
                            object-src 'none';
+                           base-uri 'self';
+                           form-action 'self';
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
