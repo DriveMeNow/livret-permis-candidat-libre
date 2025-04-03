@@ -1,32 +1,24 @@
 const express = require('express');
 const helmet = require('helmet');
-const crypto = require('crypto');
 
 const app = express();
 
-// Middleware pour générer un nonce unique pour chaque requête
-app.use((req, res, next) => {
-  res.locals.nonce = crypto.randomBytes(16).toString('base64');
-  next();
-});
-
-// Helmet avec CSP stricte + nonce dynamique
 app.use(helmet.hsts({
-  maxAge: 31536000, // 1 an (durée recommandée)
-  includeSubDomains: true, // inclus sous-domaines
-  preload: true // recommandé pour liste préchargée navigateur
+  maxAge: 31536000,
+  includeSubDomains: true,
+  preload: true
 }));
 
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
     directives: {
-            "default-src": ["'self'"],
-      "script-src": ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-      "style-src": ["'self'", "https://fonts.googleapis.com", (req, res) => `'nonce-${res.locals.nonce}'`],
-      "font-src": ["'self'", "https://fonts.gstatic.com"],
+      "default-src": ["'self'"],
+      "script-src": ["'self'"],
+      "style-src": ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
       "img-src": ["'self'", "data:", "https:"],
-      "connect-src": ["'self'"],
+      "connect-src": ["'self'", "https://livret-numerique-permisb-candidat-libre.onrender.com"],
       "frame-src": ["'none'"],
       "frame-ancestors": ["'none'"],
       "base-uri": ["'self'"],
