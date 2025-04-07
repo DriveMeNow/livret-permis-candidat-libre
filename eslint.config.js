@@ -28,6 +28,11 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+
+      // 👇 Ajoute exactement cette règle pour gérer les directives Tailwind CSS
+      'at-rule-no-unknown': [
+        'off', // désactive la règle ESLint sur les "@rule" inconnues (ex: @tailwind)
+      ],
     },
   },
 ]

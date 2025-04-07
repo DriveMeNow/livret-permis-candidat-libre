@@ -1,13 +1,16 @@
-// Exemple dans App.jsx ou composant spécifique
-export default function App({ nonce }) {
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AuthPage from './pages/AuthPage';
+import Dashboard from './pages/Dashboard';
+import Inscription from './pages/Inscription';
+
+export default function App() {
   return (
-    <>
-      <style nonce={nonce}>
-        {`
-          h1 { color: blue; }
-        `}
-      </style>
-      <h1>Bienvenue sur DriveMeNow</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/inscription" element={<Inscription />} />
+    </Routes>
   );
 }

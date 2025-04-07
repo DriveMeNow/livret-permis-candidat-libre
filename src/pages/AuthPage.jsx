@@ -30,42 +30,29 @@ export default function AuthPage() {
         </div>
 
         <div className="flex rounded-lg overflow-hidden bg-[#feecc7] mb-4 shadow-lg">
-  <button
-    className={`w-1/2 py-2 text-base font-semibold transition duration-300 ease-in-out
-      ${activeTab === 'login' ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-black shadow-md' : 'text-black hover:bg-orange-200'}`}
-    onClick={() => setActiveTab('login')}
-  >
-    Connexion
-  </button>
-  <button
-    className={`w-1/2 py-2 text-base font-semibold transition duration-300 ease-in-out
-      ${activeTab === 'register' ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-black shadow-md' : 'text-black hover:bg-orange-200'}`}
-    onClick={() => setActiveTab('register')}
-  >
-    Inscription
-  </button>
-</div>
-
+          <button
+            className={`w-1/2 py-2 text-base font-semibold transition duration-300 ease-in-out
+            ${activeTab === 'login' ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-black shadow-md' : 'text-black hover:bg-orange-200'}`}
+            onClick={() => setActiveTab('login')}
+          >
+            Connexion
+          </button>
+          <button
+            className={`w-1/2 py-2 text-base font-semibold transition duration-300 ease-in-out
+            ${activeTab === 'register' ? 'bg-gradient-to-r from-orange-400 to-orange-500 text-black shadow-md' : 'text-black hover:bg-orange-200'}`}
+            onClick={() => setActiveTab('register')}
+          >
+            Inscription
+          </button>
+        </div>
 
         <AnimatePresence mode="wait">
           {activeTab === 'login' ? (
-            <motion.div
-              key="login"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.4 }}
-            >
+            <motion.div key="login" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <LoginForm />
             </motion.div>
           ) : (
-            <motion.div
-              key="register"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4 }}
-            >
+            <motion.div key="register" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <RegisterForm />
             </motion.div>
           )}
