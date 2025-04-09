@@ -23,7 +23,11 @@ export default function AuthPage() {
         transition={{ duration: 0.5 }}
       >
         <div className="text-center mb-6">
-          <img src="/images/mon_logo.png.png" alt="Logo DriveMeNow" className="mx-auto w-32 mb-3" />
+          <img
+            src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png"
+            alt="Logo DriveMeNow"
+            className="mx-auto w-32 mb-3"
+          />
           <h1 className="text-gray-200 font-semibold">
             Bienvenue ! Rejoignez DriveMeNow pour accéder à votre guide complet et votre livret d'apprentissage personnalisé pour réussir le permis de conduire en candidat libre. Inscrivez-vous ou connectez-vous dès maintenant.
           </h1>
