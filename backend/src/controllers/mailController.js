@@ -23,7 +23,7 @@ export const sendRegistrationEmail = async (req, res) => {
         <title>Code OTP DriveMeNow</title>
       </head>
       <body style="font-family:Arial,sans-serif;background:#fcedcc;padding:20px;text-align:center;">
-        <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1743169293/mon_logo.png_tkl62a.png" alt="DriveMeNow" style="width:150px;margin-bottom:20px;">
+        <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png" alt="DriveMeNow" style="width:150px;margin-bottom:20px;">
         <h2 style="color:#333;">🚗 Bienvenue chez DriveMeNow ! 🚗</h2>
         <p style="font-size:16px;color:#555;">
           Voici votre code OTP pour valider votre inscription gratuite :

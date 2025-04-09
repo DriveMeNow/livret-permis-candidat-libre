@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="bg-[#fcedcc] min-h-screen flex flex-col">
 
       <header className="bg-black text-white py-6">
-        <img src="/images/mon_logo.png.png" alt="Logo DriveMeNow" className="mx-auto w-32 mb-3" />
+        <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png" alt="Logo DriveMeNow" className="mx-auto w-32 mb-3" />
         <h1 className="text-center text-xl font-extrabold">Bienvenue chez DriveMeNow</h1>
         <p className="text-center text-lg">Votre livret numérique et accompagnement personnalisé pour réussir le permis B en candidat libre.</p>
       </header>
