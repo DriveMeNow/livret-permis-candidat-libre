@@ -57,7 +57,7 @@ const handleSubmit = async (e) => {
       navigate('/auth?mode=login');
   
     } catch (error) {
-      alert("Erreur lors de l'inscription.");
+      alert("Erreur lors de l'envoie de l'email.");
     }
   }; 
 
