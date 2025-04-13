@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
+import csurf from 'csurf';
 
+// Middleware JWT
 export const verifyJWT = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: "Session expirée. Reconnectez-vous." });
@@ -10,3 +12,6 @@ export const verifyJWT = (req, res, next) => {
     next();
   });
 };
+
+// Middleware CSRF
+export const csrfProtection = csurf({ cookie: true });
