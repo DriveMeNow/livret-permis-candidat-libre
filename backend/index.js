@@ -15,9 +15,10 @@ const app = express();
 
 app.use(helmet());
 app.use(cors({
-  origin: 'https://drivemenow.netlify.app', // Frontend déployé
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 

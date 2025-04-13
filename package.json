@@ -2,12 +2,12 @@
   "name": "livret-permis-candidat-libre-global",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "install:frontend": "npm install --prefix frontend",
-    "install:backend": "npm install --prefix backend",
-    "build:frontend": "npm run build --prefix frontend",
-    "copy:frontend-to-backend": "mkdir -p backend/public/dist && cp -r frontend/dist/* backend/public/dist/",
-    "build": "npm run install:frontend && npm run build:frontend && npm run copy:frontend-to-backend && npm run install:backend",
-    "start": "npm run start --prefix backend"
-  }
+"scripts": {
+  "install:frontend": "npm install --prefix frontend",
+  "install:backend": "npm install --prefix backend",
+  "build:frontend": "npm run build --prefix frontend",
+  "copy:frontend-to-backend": "mkdir -p backend/public/dist && cp -a frontend/dist/. backend/public/dist/",
+  "build": "npm run install:frontend && npm run build:frontend && npm run copy:frontend-to-backend && npm run install:backend",
+  "start": "npm run start --prefix backend"
+}
 }
