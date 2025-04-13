@@ -1,25 +1,22 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-import path from 'path';
+// backend/index.js
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import mailRoutes from './src/routes/mailRoutes.js';
 import authRoutes from './src/routes/authRoutes.js';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
+// Obtention correcte du chemin du répertoire courant
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
 
 app.use(helmet());
 app.use(cors({
   origin: process.env.FRONTEND_URL,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token']
+  credentials: true
 }));
 app.use(cookieParser());
 app.use(express.json());
@@ -27,15 +24,16 @@ app.use(express.json());
 app.use('/api/mail', mailRoutes);
 app.use('/api/auth', authRoutes);
 
-// Sert les fichiers statiques React
-app.use(express.static(path.join(__dirname, 'public/dist')));
+// Chemin corrigé vers le frontend dist
+app.use(express.static(join(__dirname, 'public', 'dist')));
 
-// Route par défaut vers React
+// Renvoyer systématiquement vers index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/dist/index.html'));
+  res.sendFile(join(__dirname, 'public', 'dist', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`✅ Serveur sécurisé en écoute sur le port ${PORT}`);
 });
