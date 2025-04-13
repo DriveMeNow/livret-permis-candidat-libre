@@ -19,13 +19,15 @@
   "license": "ISC",
   "description": "Backend sécurisé pour l'envoi de mails et gestion de l'authentification pour le livret permis candidat libre.",
   "dependencies": {
-    "@sendgrid/mail": "^8.1.4",
+    "@sendgrid/mail": "^8.1.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.10.0",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "express": "^4.21.2",
-    "helmet": "^8.1.0"
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
