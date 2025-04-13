@@ -9,36 +9,44 @@ export const sendRegistrationEmail = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    await redisClient.setEx(email, 600, otp);  // OTP expire automatiquement après 600 secondes (10 min)
+    await redisClient.setEx(email, 900, otp);  // 15 min expiration (900 secondes)
 
     const msg = {
       to: email,
       from: process.env.SENDGRID_FROM_EMAIL,
-      subject: '🚗 DriveMeNow - Votre code OTP de confirmation',
-    html: `
+      subject: '🔑 DriveMeNow - Votre code de sécurité temporaire',
+      html: `
       <!DOCTYPE html>
       <html lang="fr">
       <head>
         <meta charset="UTF-8">
-        <title>Code OTP DriveMeNow</title>
+        <title>Code de sécurité - DriveMeNow</title>
+        <style>
+          body {font-family: Arial, sans-serif; background-color: #fcedcc; padding: 20px; text-align: center;}
+          .otp {font-size: 24px; font-weight: bold; color: #e67e22; margin: 20px;}
+          .btn {padding: 10px 20px; background: #e67e22; color: white; border-radius: 4px; text-decoration:none;}
+          .footer {font-size:12px; color:#888; margin-top:20px;}
+        </style>
       </head>
-      <body style="font-family:Arial,sans-serif;background:#fcedcc;padding:20px;text-align:center;">
+      <body>
         <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png" alt="DriveMeNow" style="width:150px;margin-bottom:20px;">
-        <h2 style="color:#333;">🚗 Bienvenue chez DriveMeNow ! 🚗</h2>
-        <p style="font-size:16px;color:#555;">
-          Voici votre code OTP pour valider votre inscription gratuite :
-        </p>
-        <p style="font-size:24px;color:#e67e22;font-weight:bold;margin:20px;" id="otp">
-  ${otp}
-</p>
-<button onclick="navigator.clipboard.writeText('${otp}');">Copier le code</button>
-
-        <p style="color:#555;font-size:14px;">
-          Ce code est valable pendant 10 minutes.
-        </p>
-        <hr style="border:none;height:1px;background-color:#ddd;">
-        <p style="color:#888;font-size:12px;">
-          Si vous n'avez pas demandé ce code, veuillez ignorer cet email.
+        
+        <h2>🔑 Votre code de sécurité temporaire</h2>
+        <p>Voici votre code de sécurité pour finaliser votre inscription à <strong>DriveMeNow</strong> :</p>
+        
+        <div class="otp">${otp}</div>
+        
+        <button class="btn" onclick="navigator.clipboard.writeText('${otp}');">Copier le code</button>
+        
+        <p><strong>Attention :</strong> Ce code est valable uniquement pendant 15 minutes. Après ce délai, vous devrez demander un nouveau code.</p>
+        
+        <hr>
+        
+        <p class="footer">
+          Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet email ou contactez immédiatement le support DriveMeNow.
+          <br>
+          <br>
+          <em>Ceci est un message automatique. Merci de ne pas y répondre directement.</em>
         </p>
       </body>
       </html>
@@ -46,10 +54,10 @@ export const sendRegistrationEmail = async (req, res) => {
     };
 
     await sgMail.send(msg);
-    res.status(200).json({ message: 'Email avec OTP envoyé.' });
+    res.status(200).json({ message: 'Email envoyé avec succès.' });
 
   } catch (error) {
-    console.error("Erreur Redis ou SendGrid :", error.response?.body || error);
-    res.status(500).json({ error: "Erreur d'envoi de l'email ou Redis." });
+    console.error("Erreur d'envoi email ou Redis :", error.response?.body || error);
+    res.status(500).json({ error: "Erreur d'envoi email ou Redis." });
   }
 };
