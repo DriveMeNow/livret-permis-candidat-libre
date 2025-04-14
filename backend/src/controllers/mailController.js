@@ -1,48 +1,42 @@
+import sgMail from '@sendgrid/mail';
+import dotenv from 'dotenv';
+import redisClient from '../redisClient.js';
+
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 export const sendRegistrationEmail = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    await redisClient.setEx(email, 600, otp);  
+    await redisClient.setEx(email, 900, otp);  // 15 min valide explicitement
 
     const msg = {
       to: email,
       from: process.env.SENDGRID_FROM_EMAIL,
-      subject: '🔐 Votre code de confirmation DriveMeNow',
+      subject: '🔐 DriveMeNow - Code de Sécurité pour Confirmation',
       html: `
       <!DOCTYPE html>
       <html lang="fr">
       <head>
         <meta charset="UTF-8">
-        <title>Code de confirmation - DriveMeNow</title>
+        <title>Code Sécurité DriveMeNow</title>
       </head>
-      <body style="font-family: Arial, sans-serif; background: #f7f9fc; padding: 20px; color: #333;">
-        <div style="text-align:center; margin-bottom: 20px;">
-          <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png" alt="DriveMeNow" width="120">
+      <body style="font-family: Arial, sans-serif; background-color:#fcedcc;padding:20px;">
+        <div style="text-align:center;">
+          <img src="https://res.cloudinary.com/dosumxjzj/image/upload/v1744160623/logo_1.png_smrbh2.png" style="width:150px;">
+          <h2>Votre code de sécurité</h2>
+          <p>Utilisez ce code pour valider votre inscription sur DriveMeNow :</p>
+          <p style="font-size:22px;color:#333;font-weight:bold;">${otp}</p>
+          <p style="font-size:12px;color:#888;">Ce code expire dans 15 minutes.</p>
+          <hr style="border:none;height:1px;background:#ddd;">
+          <p style="font-size:10px;color:#aaa;">
+            Si vous n'êtes pas à l'origine de cette demande, ignorez simplement ce message ou contactez le support DriveMeNow.
+          </p>
+          <p style="font-size:10px;color:#aaa;">
+            Cet email est généré automatiquement. Merci de ne pas y répondre.
+          </p>
         </div>
-        <h2 style="text-align:center; color:#0055A4;">Votre sécurité est notre priorité</h2>
-        <p style="font-size:16px; text-align:center;">
-          Voici votre code unique pour finaliser votre inscription :
-        </p>
-        <div style="text-align:center; font-size: 24px; font-weight:bold; background-color:#e9f2fe; padding:10px; border-radius:8px; width: fit-content; margin: auto;">
-          ${otp}
-        </div>
-        <p style="text-align:center; margin-top:20px; font-size:14px;">
-          Attention, ce code est valable uniquement pendant <strong>10 minutes</strong>.  
-          Passé ce délai, veuillez demander un nouveau code.
-        </p>
-        <hr style="margin:20px;">
-        <p style="font-size:12px; color:#888; text-align:center;">
-          Ce code est personnel. Ne le partagez jamais. DriveMeNow ne vous demandera jamais ce code par téléphone ou email.
-          <br>
-          Si vous n'êtes pas à l'origine de cette demande, veuillez nous contacter immédiatement.
-        </p>
-        <p style="font-size:12px; text-align:center;">
-          Ce message est automatique, merci de ne pas y répondre.
-        </p>
-        <footer style="text-align:center; font-size:12px; margin-top:20px; color:#aaa;">
-          DriveMeNow - Votre partenaire mobilité<br>
-          Retrouvez-nous sur <a href="https://drivemenow.netlify.app">DriveMeNow</a>
-        </footer>
       </body>
       </html>
       `,
@@ -52,7 +46,7 @@ export const sendRegistrationEmail = async (req, res) => {
     res.status(200).json({ message: 'Email avec OTP envoyé.' });
 
   } catch (error) {
-    console.error("Erreur Redis ou SendGrid :", error.response?.body || error);
-    res.status(500).json({ error: "Erreur d'envoi de l'email ou Redis." });
+    console.error("Erreur SendGrid ou Redis :", error);
+    res.status(500).json({ error: "Erreur lors de l'envoi de l'email ou stockage Redis." });
   }
 };
