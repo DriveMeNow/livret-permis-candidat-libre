@@ -12,6 +12,3 @@ export const verifyJWT = (req, res, next) => {
     next();
   });
 };
-
-// Middleware CSRF
-export const csrfProtection = csurf({ cookie: true });

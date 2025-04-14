@@ -10,10 +10,6 @@ router.use(cors({
     credentials: true
 }));
 
-router.get('/csrf-token', csrfProtection, (req, res) => {
-    res.json({ csrfToken: req.csrfToken() });
-});
-
-router.post('/send-registration-email', csrfProtection, sendRegistrationEmail);
+router.post('/send-registration-email', sendRegistrationEmail);
 
 export default router;
