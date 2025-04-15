@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
 "scripts": {
-  "install:all": "npm install --prefix frontend && npm install --prefix backend",
-  "build": "npm run build --prefix frontend && mkdir -p backend/public/dist && cp -r frontend/dist/* backend/public/dist/",
-  "start": "npm start --prefix backend",
-  "dev": "npm run install:all && npm run build && npm run start"
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "build": "npm run build --prefix frontend && mkdir -p backend/public/dist && cp -r frontend/dist/* backend/public/dist/",
+    "start": "npm run start --prefix backend",
+    "dev": "npm run install:all && npm run build && npm run start"
 }
 }
