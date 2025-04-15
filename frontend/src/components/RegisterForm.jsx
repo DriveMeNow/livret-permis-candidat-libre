@@ -13,20 +13,21 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captcha, setCaptcha] = useState(null);
+  const [csrfToken, setCsrfToken] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf-token`);
+        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf-token`, { withCredentials: true });
         axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
+        setCsrfToken(data.csrfToken);
       } catch (error) {
         console.error('Erreur récupération CSRF:', error);
       }
     };
     fetchCsrfToken();
   }, []);
-
-  const handleCaptchaChange = (value) => setCaptcha(value);
 
   const passwordCriteria = {
     length: password.length >= 9,
@@ -37,29 +38,28 @@ export default function RegisterForm() {
 
   const isPasswordValid = Object.values(passwordCriteria).every(Boolean);
 
+  const handleCaptchaChange = (value) => setCaptcha(value);
+
   const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
-  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-    if (!captcha || !isPasswordValid || password !== confirmPassword) {
-      return;
-    }
-  
-    const otp = generateOTP(); // Génération OTP claire et explicite
+    if (!captcha || !isPasswordValid || password !== confirmPassword) return;
+
+    const otp = generateOTP();
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/mail/send-registration-email`, { email, otp });
-      alert('Inscription réussie, vérifiez votre email pour récupérer le code OTP.');
-  
-      // Redirection automatique vers la page de connexion après l'inscription réussie
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/mail/send-registration-email`, {
+        email,
+        otp
+      });
+      alert("Inscription réussie, vérifiez votre email.");
       navigate('/auth?mode=login');
-  
     } catch (error) {
-      alert("Erreur lors de l'envoie de l'email.");
+      console.error("Erreur lors de l'envoi de l'email :", error);
+      alert("Erreur lors de l'envoi de l'email.");
     }
-  }; 
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -81,7 +81,7 @@ const handleSubmit = async (e) => {
         <label className="block text-white font-medium mb-1">Mot de passe :</label>
         <div className="relative">
           <input
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Votre mot de passe"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -104,7 +104,7 @@ const handleSubmit = async (e) => {
         <label className="block text-white font-medium mb-1">Confirmer le mot de passe :</label>
         <div className="relative">
           <input
-            type={showConfirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? 'text' : 'password'}
             placeholder="Confirmez votre mot de passe"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -124,7 +124,11 @@ const handleSubmit = async (e) => {
         </label>
       </div>
 
-      <ReCAPTCHA sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} onChange={handleCaptchaChange} className="flex justify-center" />
+      <ReCAPTCHA
+        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+        onChange={handleCaptchaChange}
+        className="flex justify-center"
+      />
 
       <div className="flex justify-center pt-4">
         <button type="submit" className="px-8 bg-[#feecc7] hover:bg-orange-400 text-black rounded-lg py-2 font-semibold text-base">
