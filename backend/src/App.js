@@ -1,140 +1,88 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Eye, EyeOff } from 'lucide-react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useNavigate } from 'react-router-dom';
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import mailRoutes from './routes/mailRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import { verifyJWT } from './middleware/auth.js';
+import redisClient from './redisClient.js';
 
-axios.defaults.withCredentials = true;
+dotenv.config();
 
-export default function RegisterForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [captcha, setCaptcha] = useState(null);
-  const [csrfToken, setCsrfToken] = useState('');
-  const navigate = useNavigate();
+const app = express();
 
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/csrf-token`, { withCredentials: true });
-        axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken;
-        setCsrfToken(data.csrfToken);
-      } catch (error) {
-        console.error('Erreur récupération CSRF:', error);
-      }
-    };
-    fetchCsrfToken();
-  }, []);
-
-  const passwordCriteria = {
-    length: password.length >= 9,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /\d/.test(password),
-  };
-
-  const isPasswordValid = Object.values(passwordCriteria).every(Boolean);
-
-  const handleCaptchaChange = (value) => setCaptcha(value);
-
-  const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!captcha || !isPasswordValid || password !== confirmPassword) return;
-
-    const otp = generateOTP();
-    try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/mail/send-registration-email`, {
-        email,
-        otp
-      });
-      alert("Inscription réussie, vérifiez votre email.");
-      navigate('/auth?mode=login');
-    } catch (error) {
-      console.error("Erreur lors de l'envoi de l'email :", error);
-      alert("Erreur lors de l'envoi de l'email.");
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+      connectSrc: ["'self'", process.env.FRONTEND_URL, process.env.VITE_BACKEND_URL],
+      frameSrc: ["'self'", "https://www.google.com"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"]
     }
-  };
+  },
+  crossOriginEmbedderPolicy: false,
+  frameguard: { action: 'deny' },
+  noSniff: true,
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+  xssFilter: true,
+}));
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-center text-xl text-white font-bold">INSCRIPTION</h2>
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}));
 
-      <div>
-        <label className="block text-white font-medium mb-1">Email :</label>
-        <input
-          type="email"
-          placeholder="Votre email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-orange-400"
-          required
-        />
-      </div>
+app.use(express.json());
+app.use(cookieParser());
 
-      <div>
-        <label className="block text-white font-medium mb-1">Mot de passe :</label>
-        <div className="relative">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Votre mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-orange-400"
-            required
-          />
-          <button type="button" className="absolute inset-y-0 right-0 flex items-center px-3" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <EyeOff size={20} className="text-orange-400" /> : <Eye size={20} className="text-orange-400" />}
-          </button>
-        </div>
-        <ul className="text-sm text-gray-300 mt-1">
-          <li>{passwordCriteria.length ? "✅" : "❌"} Min. 9 caractères</li>
-          <li>{passwordCriteria.uppercase ? "✅" : "❌"} 1 majuscule</li>
-          <li>{passwordCriteria.lowercase ? "✅" : "❌"} 1 minuscule</li>
-          <li>{passwordCriteria.number ? "✅" : "❌"} 1 chiffre</li>
-        </ul>
-      </div>
+const csrfProtection = csrf({ cookie: { httpOnly: true, secure: true, sameSite: 'Strict' } });
+app.use(csrfProtection);
 
-      <div>
-        <label className="block text-white font-medium mb-1">Confirmer le mot de passe :</label>
-        <div className="relative">
-          <input
-            type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="Confirmez votre mot de passe"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-orange-400"
-            required
-          />
-          <button type="button" className="absolute inset-y-0 right-0 flex items-center px-3" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-            {showConfirmPassword ? <EyeOff size={20} className="text-orange-400" /> : <Eye size={20} className="text-orange-400" />}
-          </button>
-        </div>
-      </div>
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
-      <div className="flex items-center justify-center mb-6">
-        <input type="checkbox" id="cgu" required className="mr-2" />
-        <label htmlFor="cgu" className="text-sm text-gray-300">
-          J'accepte les <a href="/cgu" target="_blank" className="text-orange-400 underline">conditions générales d'utilisation</a>
-        </label>
-      </div>
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Trop de tentatives échouées. Réessayez après 15 minutes.',
+});
 
-      <ReCAPTCHA
-        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-        onChange={handleCaptchaChange}
-        className="flex justify-center"
-      />
+app.use('/api/auth/login', loginLimiter, authRoutes);
+app.use('/api/mail', mailRoutes);
 
-      <div className="flex justify-center pt-4">
-        <button type="submit" className="px-8 bg-[#feecc7] hover:bg-orange-400 text-black rounded-lg py-2 font-semibold text-base">
-          S'inscrire
-        </button>
-      </div>
-    </form>
-  );
-}
+app.get('/api/auth/check-session', verifyJWT, (req, res) => {
+  res.status(200).json({ loggedIn: true, email: req.user.email });
+});
+
+app.get('/dashboard', verifyJWT, (req, res) => {
+  res.json({ message: 'Dashboard accessible uniquement aux utilisateurs connectés.' });
+});
+
+app.post('/api/auth/logout', verifyJWT, (req, res) => {
+  res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+  res.status(200).json({ message: 'Déconnexion réussie.' });
+});
+
+app.use((err, req, res, next) => {
+  if (err.code === 'EBADCSRFTOKEN') {
+    return res.status(403).json({ error: 'Formulaire invalide, veuillez réessayer.' });
+  }
+  next(err);
+});
+
+redisClient.on('connect', () => console.log('✅ Redis connecté'));
+redisClient.on('error', (err) => console.error('❌ Erreur Redis:', err));
+
+export default app;
