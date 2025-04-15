@@ -7,6 +7,8 @@ import mailRoutes from './src/routes/mailRoutes.js';
 import authRoutes from './src/routes/authRoutes.js';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Obtention correcte du chemin du répertoire courant
 const __dirname = dirname(fileURLToPath(import.meta.url)).replace('/src', '');
