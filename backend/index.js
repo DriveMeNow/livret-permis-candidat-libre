@@ -7,12 +7,14 @@ import mailRoutes from './src/routes/mailRoutes.js';
 import authRoutes from './src/routes/authRoutes.js';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import csrfRoutes from './src/routes/csrfRoutes.js';
 
 // Obtention correcte du chemin du répertoire courant
 const __dirname = dirname(fileURLToPath(import.meta.url)).replace('/src', '');
 
 const app = express();
 
+app.use(csrfRoutes);
 app.use(helmet());
 app.use(cors({
   origin: 'https://drivemenow.netlify.app', // Remplace par ton domaine réel Netlify

@@ -26,7 +26,7 @@ export default function RegisterForm() {
       }
     };
     fetchCsrfToken();
-  }, []);
+  }, []);  
 
   const passwordCriteria = {
     length: password.length >= 9,
