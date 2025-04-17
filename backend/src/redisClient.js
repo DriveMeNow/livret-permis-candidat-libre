@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const redisClient = createClient({
-  url: process.env.REDIS_URL,
+  url: process.env.REDIS_URL, // URL avec "rediss://"
   socket: {
     tls: true,
     rejectUnauthorized: false
