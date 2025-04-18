@@ -1,14 +1,11 @@
+// backend/src/redisClient.js
 import { createClient } from 'redis';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const redisClient = createClient({
-  url: process.env.REDIS_URL, // URL avec "rediss://"
-  socket: {
-    tls: true,
-    rejectUnauthorized: false
-  }
+  url: process.env.REDIS_URL // sans SSL
 });
 
 redisClient.on('error', (err) => console.error('❌ Redis Client Error:', err));
