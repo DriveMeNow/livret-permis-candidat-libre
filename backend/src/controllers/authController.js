@@ -1,14 +1,9 @@
 import jwt from 'jsonwebtoken';
-import redisClient from '../redisClient.js';
 
 export const login = async (req, res) => {
   const { email, password, otp } = req.body;
 
   try {
-    const storedOtp = await redisClient.get(email);
-    if (!storedOtp || storedOtp !== otp) {
-      return res.status(401).json({ error: "OTP incorrect ou expiré." });
-    }
 
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 86400000 });

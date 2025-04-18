@@ -1,14 +1,13 @@
+// mailController.js
 import sgMail from '@sendgrid/mail';
 import dotenv from 'dotenv';
-import redisClient from '../redisClient.js';
 
 dotenv.config();
-
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const sendRegistrationEmail = async (req, res) => {
   const { email, otp } = req.body;
-  
+
   const msg = {
     to: email,
     from: process.env.SENDGRID_FROM_EMAIL,
@@ -73,10 +72,11 @@ export const sendRegistrationEmail = async (req, res) => {
 
   try {
     await redisClient.setEx(email, 900, otp); // Stockage Redis
-    await sgMail.send(msg);
-    res.status(200).json({ success: true });
+    await sgMail.send(msg); // Envoi via SendGrid
+
+    res.status(200).json({ message: "Email envoyé avec succès." });
   } catch (error) {
-    console.error('Erreur SendGrid ou Redis :', error);
+    console.error("Erreur SendGrid ou Redis :", error);
     res.status(500).json({ error: "Erreur lors de l'envoi de l'email ou stockage Redis." });
   }
 };
