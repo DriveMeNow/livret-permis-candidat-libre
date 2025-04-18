@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Correction des avertissements appearance */
+input, button, textarea, select {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
 }
+
 .g-recaptcha {
   transform: scale(0.9);
   transform-origin: 0 0;
