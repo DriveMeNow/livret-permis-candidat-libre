@@ -1,4 +1,6 @@
-// src/components/CandidateInfoForm.jsx
+import Input from './ui/Input';
+import Button from './ui/Button';
+
 export default function CandidateInfoForm() {
   return (
     <form>

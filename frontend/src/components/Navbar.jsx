@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Sidebar from './Sidebar';
+import Input from './ui/Input';
+import Button from './ui/Button';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
