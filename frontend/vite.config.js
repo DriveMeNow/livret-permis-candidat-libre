@@ -3,13 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  build: {
-    outDir: 'dist', // essentiel pour s'assurer que le build va dans frontend/dist
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/tests/setup.js'
   },
-  server: {
-    host: true,  // accepte toutes les connexions externes
-    allowedHosts: [
-      '.ngrok-free.app' // autorise tous les sous-domaines ngrok
-    ]
-  }
 });

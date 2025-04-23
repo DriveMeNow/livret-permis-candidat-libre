@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Loader from './Loader';
+import useAuthStore from '../store/useAuthStore';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -27,24 +28,18 @@ export default function LoginForm() {
 
   const handleCaptchaChange = (value) => setCaptcha(value);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!captcha) return setErrorMsg("Veuillez compléter le CAPTCHA.");
-
-    if (rememberMe) localStorage.setItem('rememberedEmail', email);
-    else localStorage.removeItem('rememberedEmail');
-
-    setLoading(true);
-    try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, { email, password, otp });
-      window.location.href = "/dashboard";
-    } catch {
-      setAttempts(a => a + 1);
-      setErrorMsg("Email, mot de passe ou OTP incorrect.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, { email, password });
+    useAuthStore.getState().login(res.data.user);
+  } catch (error) {
+    setErrorMsg("Erreur de connexion");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <form onSubmit={handleLogin} className="space-y-4">

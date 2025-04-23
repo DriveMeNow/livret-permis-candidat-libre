@@ -1,9 +1,10 @@
-export default function Input(props) {
-    return (
-      <input
-        {...props}
-        className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring focus:ring-orange-400"
-      />
-    );
-  }
-  
+export default function Input({ children, className = '', ...props }) {
+  return (
+    <button
+      {...props}
+      className={`px-6 py-2 rounded-lg text-white font-semibold transition duration-300 ease-in-out bg-gradient-to-r from-secondary to-accent hover:scale-105 active:scale-95 ${className}`}
+    >
+      {children}
+    </button>
+  );
+}

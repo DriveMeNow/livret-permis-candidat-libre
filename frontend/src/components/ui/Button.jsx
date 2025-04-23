@@ -1,11 +1,10 @@
-export default function Button({ children, ...props }) {
-    return (
-      <button
-        {...props}
-        className="px-8 bg-primary hover:bg-secondary text-black rounded-lg py-2 font-semibold text-base transition"
-      >
-        {children}
-      </button>
-    );
-  }
-  
+export default function Button({ children, className = '', ...props }) {
+  return (
+    <button
+      {...props}
+      className={`px-6 py-2 rounded-lg text-white font-semibold transition duration-300 ease-in-out bg-gradient-to-r from-secondary to-accent hover:scale-105 active:scale-95 ${className}`}
+    >
+      {children}
+    </button>
+  );
+}

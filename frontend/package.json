@@ -4,11 +4,14 @@
   "version": "4.0.9",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "jest",
-    "tailwind:init": "tailwindcss init -p"
+  "dev": "vite",
+  "preview": "vite preview",
+  "tailwind:init": "tailwindcss init -p",
+  "install:all": "npm install && (cd ../backend && npm install)",
+  "build": "vite build && mkdir -p ../backend/public/dist && cp -r dist/* ../backend/public/dist",
+  "start": "npm run dev",
+  "lint": "eslint . --ext .js,.jsx",
+  "test": "vitest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
