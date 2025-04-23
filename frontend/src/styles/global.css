@@ -3,15 +3,20 @@
 @tailwind utilities;
 
 /* Correction des avertissements appearance */
-input, button, textarea, select {
-  appearance: none;
-  -webkit-appearance: none;
-}
+
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
+input, button {
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
 .g-recaptcha {
   transform: scale(0.9);
   transform-origin: 0 0;
