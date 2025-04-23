@@ -48,7 +48,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleLogin} className="space-y-4">
-      <h2 className="text-xl font-bold text-center text-white">CONEXION</h2>
+      <h2 className="text-xl font-bold text-center text-white">CONNEXION</h2>
       {errorMsg && <div className="text-red-400 text-center">{errorMsg}</div>}
       <input type="email" className="w-full p-2 rounded-lg border" placeholder="Votre email" value={email} onChange={(e) => setEmail(e.target.value)} required />
       <div className="relative">
