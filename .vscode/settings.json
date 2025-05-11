@@ -1,0 +1,20 @@
+{
+    // Désactive le lint CSS intégré qui ne connaît pas @tailwind
+    "css.lint.unknownAtRules": "ignore",
+    "less.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+  
+    // Dites à IntelliSense de traiter TSX/JSX comme du HTML (pour className)
+    "tailwindCSS.includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html",
+      "javascript": "html",
+      "javascriptreact": "html"
+    },
+  
+    // (Optionnel) active l’auto-complétion dans les strings/literals
+    "editor.quickSuggestions": {
+      "strings": true
+    }
+  }
+  
