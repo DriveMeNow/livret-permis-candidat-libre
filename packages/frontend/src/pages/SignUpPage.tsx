@@ -1,6 +1,6 @@
-// src/pages/HomePage.tsx
-import React from 'react';
+// packages/frontend/src/pages/SignUpPage.tsx
+import React from 'react'
 
 export default function SignUpPage() {
-  return <h1>Bienvenue sur DriveMeNow</h1>;
+  return <h1 className="text-center text-2xl">Page Inscription (à venir)</h1>
 }

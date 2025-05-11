@@ -1,22 +1,17 @@
+// packages/frontend/src/pages/HomePage.tsx
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuthStore } from '../store/authStore'
-import api from '../services/api'
 import { CheckCircle } from 'lucide-react'
+import { useAuthStore } from '../store/authStore'
 
 export default function HomePage() {
-  // récupère depuis le store les setters de la modale
-  const setAuthMode = useAuthStore((s) => s.setAuthMode)
-  const setAuthModalOpen = useAuthStore((s) => s.setAuthModalOpen)
-
-  const openModal = useAuthStore((s) => () => {
+  const openSignupModal = useAuthStore(s => () => {
     s.setAuthMode('signup')
     s.setAuthModalOpen(true)
   })
 
   return (
     <>
-      {/* Section Pourquoi choisir */}
       <section className="text-center mb-10">
         <h2 className="text-2xl font-bold mb-4">
           Pourquoi choisir DriveMeNow ?
@@ -27,7 +22,7 @@ export default function HomePage() {
             "Un guide complet pour réussir sans stress.",
             "Accompagnement administratif simplifié.",
             "Préparez efficacement votre examen du code et de la conduite."
-          ].map((text) => (
+          ].map(text => (
             <li key={text} className="flex items-center justify-center gap-2">
               <CheckCircle className="text-orange-500" size={20} />
               {text}
@@ -36,13 +31,11 @@ export default function HomePage() {
         </ul>
       </section>
 
-      {/* Bouton d’inscription qui ouvre la modale */}
       <section className="flex justify-center mb-6">
         <button
-          onClick={openModal}
+          onClick={openSignupModal}
           className="
-            bg-gradient-to-r
-            from-orange-400 to-orange-500
+            bg-gradient-to-r from-orange-400 to-orange-500
             text-black font-semibold
             py-2 px-6 rounded-xl shadow-lg
             transition duration-200 ease-in-out transform
@@ -53,7 +46,6 @@ export default function HomePage() {
         </button>
       </section>
 
-      {/* Les trois cartes */}
       <section className="grid md:grid-cols-3 gap-6">
         {[
           {

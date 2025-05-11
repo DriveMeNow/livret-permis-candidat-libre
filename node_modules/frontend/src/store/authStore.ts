@@ -7,8 +7,8 @@ interface AuthState {
   token: string | null
   rememberMe: boolean
 
-  setAuthModalOpen: (b: boolean) => void
-  setAuthMode: (m: 'login' | 'signup') => void
+  setAuthModalOpen: (open: boolean) => void
+  setAuthMode: (mode: 'login' | 'signup') => void
   setToken: (t: string | null) => void
   setRememberMe: (b: boolean) => void
 }
@@ -19,8 +19,8 @@ export const useAuthStore = create<AuthState>(set => ({
   token: null,
   rememberMe: false,
 
-  setAuthModalOpen: b => set({ isAuthModalOpen: b }),
-  setAuthMode: m => set({ authMode: m }),
-  setToken: t => set({ token: t }),
-  setRememberMe: b => set({ rememberMe: b }),
+  setAuthModalOpen: open => set({ isAuthModalOpen: open }),
+  setAuthMode: mode   => set({ authMode: mode }),
+  setToken: t         => set({ token: t }),
+  setRememberMe: b    => set({ rememberMe: b }),
 }))

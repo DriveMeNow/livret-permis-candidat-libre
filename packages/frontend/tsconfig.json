@@ -1,19 +1,26 @@
+// packages/frontend/tsconfig.json
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "module": "ESNext",
     "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "envPrefix": ["VITE_"],     // ne pas oublier
-    "types": ["vite/client"],   // charge vite-env.d.ts
+    "types": ["vite/client"],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "useDefineForClassFields": true
   },
   "include": [
     "src",
-    "vite-env.d.ts"
+    "vite-env.d.ts",
+    "src/custom.d.ts"
   ]
 }
